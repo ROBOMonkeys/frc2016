@@ -7,23 +7,14 @@ class SwerveDrive():
         self.m2 = VictorSP(2)
         self.m3 = VictorSP(3)
 
-    def drive(self, speed):
+    def drive(self, speed, contr):
         # do some drive bullshit here plz
-         def __init__(self, config):
         self.drive_motors = config.drive_motors
         self.steering_motors = config.steering_motors
         self.encoder = config.encoder
 
-        self.drive_joy = config.drive_joy
-        self.hs_button = config.hs_button
-        self.hs_steer_button = config.hs_steer_button
-
         self.reversed = False
 
-    def op_init(self):
-        self.robot_drive.StopMotor()
-
-    def op_tick(self):
         speed = self.drive_joy.GetMagnitude()
         angle = self.drive_joy.GetDirectionDegrees()
 
