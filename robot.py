@@ -1,4 +1,8 @@
 import wpilib as wpi
-import Swerve
+from Subsystems import Lifter, Shooter, Swerve
+
+class Myrobot(wpi.IterativeRobot):
+    def robotInit(self):
+
 
 
