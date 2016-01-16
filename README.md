@@ -15,4 +15,4 @@ Robot code for 2016 FRC competition
 
 ## Functionality
 
-- Button to square robot with obstacle
+- held button to square robot with obstacle
