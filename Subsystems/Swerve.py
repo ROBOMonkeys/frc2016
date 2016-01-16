@@ -64,3 +64,4 @@ class SwerveDrive():
             i.Set(speed)
         for i in self.steering_motors:
             i.Set(speed)
+        #we will look and edit all of this later
