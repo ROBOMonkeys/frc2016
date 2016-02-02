@@ -3,14 +3,15 @@ import util.config
 class SwerveDrive():
     def drive(self):
         # do some drive bullshit here plz
-        self.drive_motors = config.drive_motors
+        self.contr = config.controller
+        self.drive_motors = config.driving_motors
         self.steering_motors = config.steering_motors
         self.encoder = config.encoder
 
         self.reversed = False
 
-        speed = contr.GetMagnitude()
-        angle = contr.GetDirectionDegrees()
+        speed = self.contr.GetMagnitude()
+        angle = self.contr.GetDirectionDegrees()
 
         pos = self.encoder.Get()
 
