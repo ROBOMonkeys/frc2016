@@ -1,13 +1,12 @@
 import wpilib as wpi
+import util.config
 
 from Subsystems import Lifter, Shooter, Swerve
-
 from enums import XboxAxis, XboxButtons, init_buttons
-
 
 class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
-        self.contr = wpi.Joystick(0)
+        self.contr = config.controller
         init_buttons(self.contr)
         self.drive = Swerve.SwerveDrive()
 
@@ -25,6 +24,8 @@ class Myrobot(wpi.IterativeRobot):
             self.rot = 0
         if self.y < 0.25 and self.y > -0.25:
             self.y = 0
+
+        self.drive.drive()
 
         if XboxButtons.A.poll():
             Shooter.shoot()

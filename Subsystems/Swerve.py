@@ -1,13 +1,7 @@
-from wpilib import VictorSP
+import util.config
 
 class SwerveDrive():
-    def __init__(self):
-        self.m0 = VictorSP(0)
-        self.m1 = VictorSP(1)
-        self.m2 = VictorSP(2)
-        self.m3 = VictorSP(3)
-
-    def drive(self, speed, contr):
+    def drive(self):
         # do some drive bullshit here plz
         self.drive_motors = config.drive_motors
         self.steering_motors = config.steering_motors
@@ -15,8 +9,8 @@ class SwerveDrive():
 
         self.reversed = False
 
-        speed = self.drive_joy.GetMagnitude()
-        angle = self.drive_joy.GetDirectionDegrees()
+        speed = contr.GetMagnitude()
+        angle = contr.GetDirectionDegrees()
 
         pos = self.encoder.Get()
 
@@ -42,13 +36,13 @@ class SwerveDrive():
             turn_speed = 0
 
         # This will still let it turn at full speed
-        if self.hs_button.get():
-            speed /= 2
+#        if self.hs_button.get():
+#            speed /= 2
 
         # This will cut everything in half
-        if self.hs_steer_button.get():
-            speed /= 2
-            turn_speed /= 2
+#        if self.hs_steer_button.get():
+#            speed /= 2
+#            turn_speed /= 2
 
         # Acutally set the motors
         for i in self.drive_motors:
