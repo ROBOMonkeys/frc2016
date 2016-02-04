@@ -1,4 +1,4 @@
-import util.config
+import util.config as config
 
 class SwerveDrive():
     def drive(self):
@@ -10,8 +10,8 @@ class SwerveDrive():
 
         self.reversed = False
 
-        speed = self.contr.GetMagnitude()
-        angle = self.contr.GetDirectionDegrees()
+        speed = self.contr.getMagnitude()
+        angle = self.contr.getDirectionDegrees()
 
         pos = self.encoder.Get()
 
@@ -31,9 +31,9 @@ class SwerveDrive():
         turn_speed = (angle - pos) / 180 + .01
 
         # Limit the turning to -90 - 90 just in case
-        if self.encoder.Get() < - 90 and turn_speed < 0:
+        if self.encoder.get() < - 90 and turn_speed < 0:
             turn_speed = 0
-        elif self.encoder.Get() > 90 and turn_speed > 0:
+        elif self.encoder.get() > 90 and turn_speed > 0:
             turn_speed = 0
 
         # This will still let it turn at full speed
@@ -47,7 +47,7 @@ class SwerveDrive():
 
         # Acutally set the motors
         for i in self.drive_motors:
-            i.Set(speed)
+            i.set(speed)
         for i in self.steering_motors:
-            i.Set(speed)
+            i.set(speed)
         #we will look and edit all of this later
