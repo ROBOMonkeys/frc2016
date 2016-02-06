@@ -2,32 +2,22 @@ import wpilib as wpi
 import util.config as config
 
 from Subsystems import Shooter, Drive
-from enums import XboxAxis, XboxButtons, init_buttons
+from util.enums import XboxAxis, XboxButtons
 
 class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
-        init_buttons(config.controller)
         self.drive = Drive.RobotDrive()
         self.drive_type = config.SWERVE
 
     def teleopPeriodic(self):
-##        self.y = self.contr.getRawAxis(XboxAxis.R_Y)   # gets the y value from the right stick on the controller
-##        self.x = self.contr.getRawAxis(XboxAxis.R_X)   # gets the x value from the right stick on the controller
-##        self.rot = self.contr.getRawAxis(XboxAxis.L_X) # gets the x value from the left stick on the controller
-##
-##        # these if statements allow for a dead area in the controller
-##        #  that way the robot won't move by itself when the sticks aren't being touched
-##        if self.x < 0.25 and self.x > -0.25:
-##            self.x = 0
-##        if self.rot < 0.25 and self.rot > -0.25:
-##            self.rot = 0
-##        if self.y < 0.25 and self.y > -0.25:
-##            self.y = 0
-
+        # drive.drive.drive.drive.drive()
         self.drive.drive(self.drive_type)
 
+        ## to catch button presses
+        # to shoot, press A
         if XboxButtons.A.poll():
             Shooter.shoot()
+        # to change drive types, press X
         if XboxButtons.X.poll():
             self.drive_type = int(not self.drive_type)
 

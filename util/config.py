@@ -1,4 +1,5 @@
 from wpilib import Encoder, VictorSP, Joystick, Solenoid
+from enums import init_buttons
 
 SWERVE = 0
 TANK = 1
@@ -17,6 +18,7 @@ for i in range(4):
     encoders[i].reset()
 
 controller = Joystick(0)
+init_buttons(controller)
 
 # solenoid setup
 drop_sole = Solenoid(0, 1)
