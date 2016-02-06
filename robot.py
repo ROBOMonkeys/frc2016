@@ -34,4 +34,3 @@ class Myrobot(wpi.IterativeRobot):
 
 if __name__ == "__main__":
     wpi.run(Myrobot)
-print "im a jackass - Zac"
