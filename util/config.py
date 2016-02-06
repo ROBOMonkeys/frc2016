@@ -1,4 +1,4 @@
-from wpilib import Encoder, VictorSP, Joystick
+from wpilib import Encoder, VictorSP, Joystick, Solenoid
 
 driving_motors = []
 steering_motors = []
@@ -14,3 +14,6 @@ for i in range(4):
     encoders[i].reset()
 
 controller = Joystick(0)
+
+# solenoid setup
+drop_sole = Solenoid(0, 1)
