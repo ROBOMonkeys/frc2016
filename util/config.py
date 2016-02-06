@@ -1,5 +1,8 @@
 from wpilib import Encoder, VictorSP, Joystick, Solenoid
 
+SWERVE = 0
+TANK = 1
+
 driving_motors = []
 steering_motors = []
 encoders = [Encoder(0, 1),

@@ -1,15 +1,14 @@
 import wpilib as wpi
 import util.config as config
 
-from Subsystems import Shooter, Swerve
+from Subsystems import Shooter, Drive
 from enums import XboxAxis, XboxButtons, init_buttons
 
 class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
-        self.contr = config.controller
-        init_buttons(self.contr)
-        self.drive = Swerve.SwerveDrive()
-
+        init_buttons(config.controller)
+        self.drive = Drive.RobotDrive()
+        self.drive_type = config.SWERVE
 
     def teleopPeriodic(self):
 ##        self.y = self.contr.getRawAxis(XboxAxis.R_Y)   # gets the y value from the right stick on the controller
@@ -25,12 +24,12 @@ class Myrobot(wpi.IterativeRobot):
 ##        if self.y < 0.25 and self.y > -0.25:
 ##            self.y = 0
 
-        self.drive.drive()
+        self.drive.drive(self.drive_type)
 
         if XboxButtons.A.poll():
             Shooter.shoot()
         if XboxButtons.X.poll():
-            self.drive.default()
+            self.drive_type = int(not self.drive_type)
 
 if __name__ == "__main__":
     wpi.run(Myrobot)
