@@ -1,7 +1,7 @@
 import wpilib as wpi
 import util.config as config
 
-from Subsystems import Lifter, Shooter, Swerve
+from Subsystems import Shooter, Swerve
 from enums import XboxAxis, XboxButtons, init_buttons
 
 class Myrobot(wpi.IterativeRobot):
