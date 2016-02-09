@@ -1,5 +1,5 @@
 import util.config as config
-from enums import XboxAxis
+from util.enums import XboxAxis
 
 class RobotDrive():
     def default(self):
@@ -18,10 +18,10 @@ class RobotDrive():
     def swerve(self):
         self.steering_motors = config.steering_motors
         
-        x_speed = self.contr.getRawAxis(XboxAxis.R_Y)
+        x_speed = -self.contr.getRawAxis(XboxAxis.R_Y)
         rot = self.contr.getRawAxis(XboxAxis.L_X)
 
-        if x_speed < 0.25 and x > -0.25:
+        if x_speed < 0.25 and x_speed > -0.25:
             x_speed = 0
         if rot < 0.25 and rot > -0.25:
             rot = 0
@@ -72,18 +72,18 @@ class RobotDrive():
         return (speed, turn_speed)
 
     def tank(self):
-        r = self.contr.getRawAxis(XboxAxis.R_Y)
-        l = self.contr.getRawAxis(XboxAxis.L_Y)
+        r = -self.contr.getRawAxis(XboxAxis.R_Y)
+        l = -self.contr.getRawAxis(XboxAxis.L_Y)
 
         self.default()
 
-        # SET RIGHT MOTORS
-        self.drive_motors[0].set(r * 0.75)
-        self.drive_motors[2].set(r * 0.75)
-
         # SET LEFT MOTORS
-        self.drive_motors[1].set(l * 0.75)
-        self.drive_motors[3].set(l * 0.75)
+        self.drive_motors[0].set(l * 0.75)
+        self.drive_motors[2].set(l * 0.75)
+
+        # SET RIGHT MOTORS
+        self.drive_motors[1].set(r * 0.75)
+        self.drive_motors[3].set(r * 0.75)
     
     def drive(self, type):
         # do some drive bullshit here plz

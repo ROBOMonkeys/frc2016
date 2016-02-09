@@ -1,11 +1,14 @@
 from wpilib import Encoder, VictorSP, Joystick, Solenoid
-from enums import init_buttons
+from util.enums import init_buttons
 
 SWERVE = 0
 TANK = 1
 
 driving_motors = []
 steering_motors = []
+shoot_mtr = VictorSP(8)
+suck_mtr = VictorSP(9)
+
 encoders = [Encoder(0, 1),
             Encoder(2, 3),
             Encoder(4, 5),
@@ -21,4 +24,4 @@ controller = Joystick(0)
 init_buttons(controller)
 
 # solenoid setup
-drop_sole = Solenoid(0, 1)
+#drop_sole = Solenoid(0, 1)

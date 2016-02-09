@@ -12,7 +12,7 @@ class laggy_btns(buttons.JoystickButton):
 
     def poll(self):
         rtn_val = self.get()
-        Timer.delay(.02)
+        Timer.delay(.015)
         return rtn_val
 
 
