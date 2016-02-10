@@ -1,3 +1,4 @@
+import wpilib
 import util.config as config
 from util.enums import XboxAxis
 
@@ -89,6 +90,8 @@ class RobotDrive():
         # do some drive bullshit here plz
         self.contr = config.controller
         self.drive_motors = config.driving_motors
+        wpilib.DriverStation.reportError("enc: " + str(config.encoders[0]) +
+                                         ", gyro: " + str(config.gyro.getAngle()) + "\n", False)
         
         if type == config.SWERVE:
             self.swerve()
