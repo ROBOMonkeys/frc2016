@@ -75,7 +75,12 @@ class RobotDrive():
     def tank(self):
         r = -self.contr.getRawAxis(XboxAxis.R_Y)
         l = -self.contr.getRawAxis(XboxAxis.L_Y)
-
+        
+        if r < 0.25 and x_speed > -0.25:
+            r = 0
+        if l < 0.25 and rot > -0.25:
+            l = 0
+        
         self.default()
 
         # SET LEFT MOTORS
@@ -90,8 +95,8 @@ class RobotDrive():
         # do some drive bullshit here plz
         self.contr = config.controller
         self.drive_motors = config.driving_motors
-        wpilib.DriverStation.reportError("enc: " + str(config.encoders[0]) +
-                                         ", gyro: " + str(config.gyro.getAngle()) + "\n", False)
+        enc_str = [str(config.encoders[x].get()) for x in range(len(config.encoders))]
+        wpilib.DriverStation.reportError(str(enc_str) + "\n", False)
         
         if type == config.SWERVE:
             self.swerve()
