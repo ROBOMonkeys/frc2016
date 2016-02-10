@@ -8,7 +8,6 @@ class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
         self.drive = Drive.RobotDrive()
         self.drive_type = config.SWERVE
-
     def teleopPeriodic(self):
         # drive.drive.drive.drive.drive()
         self.drive.drive(self.drive_type)
@@ -16,7 +15,7 @@ class Myrobot(wpi.IterativeRobot):
         ## to catch button presses
         # to shoot, press A
         if XboxButtons.A.poll():
-            Shooter.shoot()
+            Shooter.shoot(8, 9)
         # to change drive types, press X
         if XboxButtons.X.poll():
             self.drive_type = int(not self.drive_type)

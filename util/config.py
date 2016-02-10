@@ -1,4 +1,4 @@
-from wpilib import Encoder, VictorSP, Joystick, Solenoid
+from wpilib import Encoder, VictorSP, Joystick, Solenoid, AnalogGyro
 from util.enums import init_buttons
 
 SWERVE = 0
@@ -8,7 +8,7 @@ driving_motors = []
 steering_motors = []
 shoot_mtr = VictorSP(8)
 suck_mtr = VictorSP(9)
-
+gyro = AnalogGyro(1)
 encoders = [Encoder(0, 1),
             Encoder(2, 3),
             Encoder(4, 5),
@@ -22,6 +22,6 @@ for i in range(4):
 
 controller = Joystick(0)
 init_buttons(controller)
-
+gyro.reset()
 # solenoid setup
 #drop_sole = Solenoid(0, 1)
