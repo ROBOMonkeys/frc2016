@@ -4,6 +4,9 @@ from util.enums import XboxAxis
 
 class RobotDrive():
     def default(self):
+        """
+        Method to set wheels all to the same position
+        """
         for i in range(len(config.encoders)):
             enc = config.encoders[i]
             mtr = config.steering_motors[i]
@@ -22,6 +25,7 @@ class RobotDrive():
         x_speed = -self.contr.getRawAxis(XboxAxis.R_Y)
         rot = self.contr.getRawAxis(XboxAxis.L_X)
 
+        # deadband zone
         if x_speed < 0.25 and x_speed > -0.25:
             x_speed = 0
         if rot < 0.25 and rot > -0.25:
@@ -75,12 +79,14 @@ class RobotDrive():
     def tank(self):
         r = -self.contr.getRawAxis(XboxAxis.R_Y)
         l = -self.contr.getRawAxis(XboxAxis.L_Y)
-        
-        if r < 0.25 and x_speed > -0.25:
+
+        # deadband
+        if r < 0.25 and r > -0.25:
             r = 0
-        if l < 0.25 and rot > -0.25:
+        if l < 0.25 and l > -0.25:
             l = 0
-        
+
+        # set the wheels back straight
         self.default()
 
         # SET LEFT MOTORS
@@ -92,14 +98,14 @@ class RobotDrive():
         self.drive_motors[3].set(r * 0.75)
     
     def drive(self, type):
-        # do some drive bullshit here plz
         self.contr = config.controller
         self.drive_motors = config.driving_motors
-        enc_str = [str(config.encoders[x].get()) for x in range(len(config.encoders))]
+
+        # gets information about the encoders so we can print it to the Driver station
+        enc_str = [str(config.encoders[x].getPeriod()) for x in range(len(config.encoders))]
         wpilib.DriverStation.reportError(str(enc_str) + "\n", False)
         
         if type == config.SWERVE:
             self.swerve()
         elif type == config.TANK:
             self.tank()
-        #we will look and edit all of this later
