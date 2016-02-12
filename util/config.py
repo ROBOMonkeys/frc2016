@@ -1,4 +1,4 @@
-from wpilib import Counter, VictorSP, Joystick, Solenoid, AnalogGyro
+from wpilib import Encoder, VictorSP, Joystick, Solenoid, AnalogGyro
 from util.enums import init_buttons
 
 SWERVE = 0
@@ -11,10 +11,10 @@ shoot_mtr = VictorSP(8)
 suck_mtr = VictorSP(9)
 auto_state = 0
 gyro = AnalogGyro(1)
-encoders = [Counter(upSource=0, downSource=1),
-            Counter(upSource=2, downSource=3),
-            Counter(upSource=4, downSource=5),
-            Counter(upSource=6, downSource=7)]
+encoders = [Encoder(0, 1),
+            Encoder(2, 3),
+            Encoder(4, 5),
+            Encoder(6, 7)]
 #encoders = [DigitalInput(0),
 #            DigitalInput(1)]
 
@@ -24,9 +24,10 @@ encoders = [Counter(upSource=0, downSource=1),
 for i in range(4):
     driving_motors.append(VictorSP(i))
     steering_motors.append(VictorSP(i + 4))
-    encoders[i].setExternalDirectionMode()
+    encoders[i].reset()
+#    encoders[i].setExternalDirectionMode()
 #    encoders[i].setUpdateWhenEmpty()
-    encoders[i].setSamplesToAverage(12)
+#    encoders[i].setSamplesToAverage(12)
 
 init_buttons(controller)
 

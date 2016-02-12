@@ -16,3 +16,9 @@ Robot code for 2016 FRC competition
 ## Functionality
 
 - held button to square robot with obstacle
+
+## TODO:
+
+- create custom SmartDashboard for robot using pynetworktables
+- finish Shooter class
+- refine Autonomous
