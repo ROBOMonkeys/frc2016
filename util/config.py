@@ -9,6 +9,7 @@ driving_motors = []
 steering_motors = []
 shoot_mtr = VictorSP(8)
 suck_mtr = VictorSP(9)
+auto_state = 0
 gyro = AnalogGyro(1)
 encoders = [Encoder(aChannel=0, bChannel=1),
             Encoder(aChannel=2, bChannel=3),
