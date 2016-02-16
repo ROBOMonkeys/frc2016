@@ -1,4 +1,6 @@
 from wpilib import DriverStation
+import util.config as config
 
 def write_log(s):
-    DriverStation.reportError(str(s) + "\n", False)
+    if config.LOGGING:
+        DriverStation.reportError(str(s) + "\n", False)

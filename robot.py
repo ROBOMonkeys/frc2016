@@ -36,6 +36,10 @@ class Myrobot(wpi.IterativeRobot):
         # to change drive types, press X
         if XboxButtons.X.poll():
             self.drive_type = int(not self.drive_type)
+        # to toggle logging to the Driver Station
+        #  press the Select button
+        if XboxButtons.Select.poll():
+            config.LOGGING = not config.LOGGING
 
 if __name__ == "__main__":
     wpi.run(Myrobot)

@@ -4,6 +4,8 @@ from util.enums import init_buttons
 SWERVE = 0
 TANK = 1
 
+LOGGING = False
+
 controller = Joystick(0)
 driving_motors = []
 steering_motors = []
@@ -11,12 +13,10 @@ shoot_mtr = VictorSP(8)
 suck_mtr = VictorSP(9)
 auto_state = 0
 gyro = AnalogGyro(1)
-encoders = [Encoder(0, 1),
-            Encoder(2, 3),
-            Encoder(4, 5),
-            Encoder(6, 7)]
-#encoders = [DigitalInput(0),
-#            DigitalInput(1)]
+encoders = [Encoder(aChannel=0, bChannel=1, reverseDirection=True),
+            Encoder(aChannel=2, bChannel=3, reverseDirection=True),
+            Encoder(aChannel=4, bChannel=5, reverseDirection=True),
+            Encoder(aChannel=6, bChannel=7, reverseDirection=True)]
 
 #drop_sole = Solenoid(0, 1)
 
