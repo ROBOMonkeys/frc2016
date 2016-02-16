@@ -103,7 +103,7 @@ class RobotDrive():
         self.drive_motors = config.driving_motors
 
         # gets information about the encoders so we can print it to the Driver station
-        enc_str = [str(config.encoders[x].get()) for x in range(len(config.encoders))]
+        enc_str = [str(x.get()) for x in config.encoders]
         logging.write_log(enc_str)
         
         if type == config.SWERVE:
