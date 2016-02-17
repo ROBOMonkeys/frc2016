@@ -15,7 +15,7 @@ auto_state = 0
 gyro = AnalogGyro(1)
 encoders = [Encoder(0, reverseDirection=True),
             Encoder(2, reverseDirection=True),
-            Encoder(4, everseDirection=True),
+            Encoder(4, reverseDirection=True),
             Encoder(6, reverseDirection=True)]
 
 #drop_sole = Solenoid(0, 1)
