@@ -13,10 +13,10 @@ shoot_mtr = VictorSP(8)
 suck_mtr = VictorSP(9)
 auto_state = 0
 gyro = AnalogGyro(1)
-encoders = [Encoder(aChannel=0, bChannel=1, reverseDirection=True),
-            Encoder(aChannel=2, bChannel=3, reverseDirection=True),
-            Encoder(aChannel=4, bChannel=5, reverseDirection=True),
-            Encoder(aChannel=6, bChannel=7, reverseDirection=True)]
+encoders = [Encoder(0, reverseDirection=True),
+            Encoder(2, reverseDirection=True),
+            Encoder(4, everseDirection=True),
+            Encoder(6, reverseDirection=True)]
 
 #drop_sole = Solenoid(0, 1)
 
