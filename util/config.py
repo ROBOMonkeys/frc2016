@@ -24,7 +24,7 @@ enc_init = 0
 enc_high = 4060
 
 drop_sole = Solenoid(0, 1)
-shoot_sole = Solenoid(
+shoot_sole = Solenoid(2, 3)
 
 # driving motors and steering motors setup
 for i in range(4):
