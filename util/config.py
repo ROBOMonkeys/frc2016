@@ -20,10 +20,11 @@ encoders = [AnalogInput(0),
 
 enc_rel = 0
 enc_abs = 0
+enc_init = 0
+enc_high = 4060
 
-enc_high = 0
-
-#drop_sole = Solenoid(0, 1)
+drop_sole = Solenoid(0, 1)
+shoot_sole = Solenoid(
 
 # driving motors and steering motors setup
 for i in range(4):
