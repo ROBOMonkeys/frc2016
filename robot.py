@@ -8,6 +8,7 @@ from threading import Timer
 class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
         self.drive = Drive.RobotDrive()
+        config.enc_init = config.encoders[0].getValue()
         self.drive_type = config.SWERVE
 
     def autonomousInit(self):
@@ -38,7 +39,7 @@ class Myrobot(wpi.IterativeRobot):
             self.drive_type = int(not self.drive_type)
         # to toggle logging to the Driver Station
         #  press the Select button
-        if XboxButtons.Select.poll():
+        if XboxButtons.Start.poll():
             config.LOGGING = not config.LOGGING
 
 if __name__ == "__main__":

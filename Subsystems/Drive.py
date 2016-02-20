@@ -51,7 +51,8 @@ class RobotDrive():
                 i.set(t_spd)
                 
     def swerve_determine_angle(self, speed, angle, enc):
-        pos = enc.get()
+        enc = 0
+        pos = enc
         reversed = False
 
         # Limits the travel to -90 - 90 and reverses the motor
@@ -70,9 +71,9 @@ class RobotDrive():
         turn_speed = (angle - pos) / 180 + .01
 
         # Limit the turning to -90 - 90 just in case
-        if enc.get() < - 180 and turn_speed < 0:
+        if enc < - 180 and turn_speed < 0:
             turn_speed = 0
-        elif enc.get() > 180 and turn_speed > 0:
+        elif enc > 180 and turn_speed > 0:
             turn_speed = 0
 
         return (speed, turn_speed)
@@ -102,8 +103,16 @@ class RobotDrive():
         self.contr = config.controller
         self.drive_motors = config.driving_motors
 
+        if config.encoders[0].getValue() - config.enc_init >= config.enc_high - config.enc_init:
+            config.enc_rel = config.encoders[0].getValue() - config.enc_init
+            config.enc_abs += config.enc_rel
+            config.enc_rel = 0
+
+        if config.enc_abs >= (config.enc_high * 10/3):
+            config.enc_abs = 0
+        
         # gets information about the encoders so we can print it to the Driver station
-        logging.write_log([str(x.get()) for x in config.encoders])
+        logging.write_log([config.enc_rel, config.enc_abs])
         
         if type == config.SWERVE:
             self.swerve()

@@ -1,4 +1,4 @@
-from wpilib import Encoder, VictorSP, Joystick, Solenoid, AnalogGyro
+from wpilib import AnalogInput, VictorSP, Joystick, Solenoid, AnalogGyro
 from util.enums import init_buttons
 
 SWERVE = 0
@@ -13,10 +13,15 @@ shoot_mtr = VictorSP(8)
 suck_mtr = VictorSP(9)
 auto_state = 0
 gyro = AnalogGyro(1)
-encoders = [Encoder(0, reverseDirection=True),
-            Encoder(2, reverseDirection=True),
-            Encoder(4, reverseDirection=True),
-            Encoder(6, reverseDirection=True)]
+encoders = [AnalogInput(0),
+#            AnalogInput(1),
+            AnalogInput(2),
+            AnalogInput(3)]
+
+enc_rel = 0
+enc_abs = 0
+
+enc_high = 0
 
 #drop_sole = Solenoid(0, 1)
 
@@ -24,7 +29,7 @@ encoders = [Encoder(0, reverseDirection=True),
 for i in range(4):
     driving_motors.append(VictorSP(i))
     steering_motors.append(VictorSP(i + 4))
-    encoders[i].reset()
+#    encoders[i].reset()
 #    encoders[i].setExternalDirectionMode()
 #    encoders[i].setUpdateWhenEmpty()
 #    encoders[i].setSamplesToAverage(12)

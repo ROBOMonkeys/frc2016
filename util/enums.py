@@ -26,8 +26,8 @@ class XboxButton():
     Y = 4
     L_bump = 5
     R_bump = 6
-    Start = 7
-    Select = 8
+    Start = 8
+    Select = 9
 
 
 class XboxButtons(XboxButton):
