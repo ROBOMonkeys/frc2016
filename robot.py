@@ -33,7 +33,7 @@ class Myrobot(wpi.IterativeRobot):
         ## to catch button presses
         # to shoot, press A
         if XboxButtons.A.poll():
-            Shooter.shoot(config.shoot_mtr, config.suck_mtr)
+            Shooter.shoot(config.shoot_mtr, config.shoot_sole)
         # to change drive types, press X
         if XboxButtons.X.poll():
             self.drive_type = int(not self.drive_type)
