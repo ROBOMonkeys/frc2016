@@ -37,6 +37,9 @@ class Myrobot(wpi.IterativeRobot):
         # to change drive types, press X
         if XboxButtons.X.poll():
             self.drive_type = int(not self.drive_type)
+        # to suck, press B
+        if XboxButtons.B.poll():
+            Shooter.suck(config.shoot_mtr, config.shoot_sole, config.suck_mtr)
         # to toggle logging to the Driver Station
         #  press the Select button
         if XboxButtons.Start.poll():
