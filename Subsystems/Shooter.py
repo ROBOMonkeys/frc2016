@@ -11,9 +11,9 @@ def real_shoot(m, p):
 
 def suck(sht_mtrs, suck_mtrs, piston):
     sht_mtrs.set(.8)
-    suck_mtrs.set(.8)
+    suck_mtrs.set(-.8)
     piston.set(False)
 
-def suck_stop(sht_mtrs, suck_mtrs)
+def suck_stop(sht_mtrs, suck_mtrs):
     sht_mtrs.set(0)
     suck_mtrs.set(0)
