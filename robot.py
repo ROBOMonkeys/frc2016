@@ -21,6 +21,9 @@ class Myrobot(wpi.IterativeRobot):
             wpi.Encoder(aChannel=4, bChannel=5, reverseDirection=True),
             wpi.Encoder(aChannel=6, bChannel=7, reverseDirection=True)]
 
+        for enc in config.encoders:
+            enc.reset()
+
     def autonomousInit(self):
         config.auto_state = 0 # sets the autonomous state var to 0
 

@@ -24,10 +24,9 @@ shoot_sole = None
 for i in range(4):
     driving_motors.append(VictorSP(i))
     steering_motors.append(VictorSP(i + 4))
-#    encoders[i].reset()
-#    encoders[i].setExternalDirectionMode()
-#    encoders[i].setUpdateWhenEmpty()
-#    encoders[i].setSamplesToAverage(12)
+
+gyro.calibrate()
+gyro.reset()
 
 init_buttons(controller)
 
