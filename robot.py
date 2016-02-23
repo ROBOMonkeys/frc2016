@@ -8,8 +8,18 @@ from threading import Timer
 class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
         self.drive = Drive.RobotDrive()
-        config.enc_init = config.encoders[0].getValue()
         self.drive_type = config.SWERVE
+
+        # only way to get the compressor to start
+        config.drop_sole = wpi.Solenoid(0)
+        config.shoot_sole = wpi.Solenoid(1)
+
+        # only way to get the Encoders to work
+        config.encoders = [
+            wpi.Encoder(aChannel=0, bChannel=1, reverseDirection=True),
+            wpi.Encoder(aChannel=2, bChannel=3, reverseDirection=True),
+            wpi.Encoder(aChannel=4, bChannel=5, reverseDirection=True),
+            wpi.Encoder(aChannel=6, bChannel=7, reverseDirection=True)]
 
     def autonomousInit(self):
         config.auto_state = 0 # sets the autonomous state var to 0

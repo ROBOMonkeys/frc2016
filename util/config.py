@@ -1,5 +1,6 @@
-from wpilib import AnalogInput, VictorSP, Joystick, Solenoid, AnalogGyro
+from wpilib import VictorSP, Joystick, Solenoid, AnalogGyro
 from util.enums import init_buttons
+#from util.AnalogEncoder import AnalogEncoder
 
 SWERVE = 0
 TANK = 1
@@ -13,18 +14,11 @@ shoot_mtr = VictorSP(8)
 suck_mtr = VictorSP(9)
 auto_state = 0
 gyro = AnalogGyro(1)
-encoders = [AnalogInput(0),
-#            AnalogInput(1),
-            AnalogInput(2),
-            AnalogInput(3)]
 
-enc_rel = 0
-enc_abs = 0
-enc_init = 0
-enc_high = 4060
+encoders = None
 
-drop_sole = Solenoid(0, 1)
-shoot_sole = Solenoid(2, 3)
+drop_sole = None 
+shoot_sole = None
 
 # driving motors and steering motors setup
 for i in range(4):
@@ -37,6 +31,4 @@ for i in range(4):
 
 init_buttons(controller)
 
-gyro.calibrate()
-gyro.reset()
 

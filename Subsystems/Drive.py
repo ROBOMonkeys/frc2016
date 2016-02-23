@@ -23,8 +23,8 @@ class RobotDrive():
     def swerve(self):
         self.steering_motors = config.steering_motors
         
-        x_speed = -self.contr.getRawAxis(XboxAxis.R_Y)
-        rot = self.contr.getRawAxis(XboxAxis.L_X)
+        x_speed = -config.controller.getRawAxis(XboxAxis.R_Y)
+        rot = config.controller.getRawAxis(XboxAxis.L_X)
 
         # deadband zone
         if x_speed < 0.25 and x_speed > -0.25:
@@ -43,7 +43,7 @@ class RobotDrive():
             ts.append(tsp)
 
         # Acutally set the motors
-        for i in self.drive_motors:
+        for i in config.driving_motors:
             for spd in s:
                 i.set(spd)
         for i in self.steering_motors:
@@ -79,8 +79,8 @@ class RobotDrive():
         return (speed, turn_speed)
 
     def tank(self):
-        r = -self.contr.getRawAxis(XboxAxis.R_Y)
-        l = -self.contr.getRawAxis(XboxAxis.L_Y)
+        r = -config.controller.getRawAxis(XboxAxis.R_Y)
+        l = -config.controller.getRawAxis(XboxAxis.L_Y)
 
         # deadband
         if r < 0.25 and r > -0.25:
@@ -92,27 +92,20 @@ class RobotDrive():
         self.default()
 
         # SET LEFT MOTORS
-        self.drive_motors[0].set(l * 0.75)
-        self.drive_motors[2].set(l * 0.75)
+        config.driving_motors[0].set(l * 0.75)
+        config.driving_motors[2].set(l * 0.75)
 
         # SET RIGHT MOTORS
-        self.drive_motors[1].set(r * 0.75)
-        self.drive_motors[3].set(r * 0.75)
+        config.driving_motors[1].set(r * 0.75)
+        config.driving_motors[3].set(r * 0.75)
     
     def drive(self, type):
-        self.contr = config.controller
-        self.drive_motors = config.driving_motors
 
-        if config.encoders[0].getValue() - config.enc_init >= config.enc_high - config.enc_init:
-            config.enc_rel = config.encoders[0].getValue() - config.enc_init
-            config.enc_abs += config.enc_rel
-            config.enc_rel = 0
-
-        if config.enc_abs >= (config.enc_high * 10/3):
-            config.enc_abs = 0
+#        for enc in config.encoders:
+#            enc.update()
         
         # gets information about the encoders so we can print it to the Driver station
-        logging.write_log([config.enc_rel, config.enc_abs])
+        logging.write_log([enc.get() for enc in config.encoders])
         
         if type == config.SWERVE:
             self.swerve()
