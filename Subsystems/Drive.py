@@ -1,9 +1,60 @@
-import wpilib
 import util.config as config
 import util.logging as logging
 from util.enums import XboxAxis
+from math import copysign
+from wpilib.timer import Timer
 
 class RobotDrive():
+    def __init__(self):
+        self.enc_seek = 0
+
+    def new_swerve(self):
+        throttle = -config.controller.getRawAxis(XboxAxis.R_Y)
+        rot = config.controller.getRawAxis(XboxAxis.L_X)
+
+        # deadband zone
+        if throttle < 0.25 and throttle > -0.25:
+            throttle = 0
+        if rot < 0.25 and rot > -0.25:
+            rot = 0
+
+        logging.write_log([self.enc_seek, rot])
+            
+        self.enc_seek += rot * 10
+
+        inverse = False
+        stop = False
+        
+        t = Timer()
+        t.start()
+        for m in range(len(config.steering_motors)):
+            t.reset()
+            logging.write_log("Turning")
+            while (not config.encoders[m].get() < self.enc_seek + 15 or \
+                   not config.encoders[m].get() > self.enc_seek - 15) and \
+                not stop:
+                if not inverse:
+                    config.steering_motors[m].set((1 * -copysign(1, rot)) *
+                                                  (self.enc_seek - config.encoders[m].get()))
+                                                  
+                else:
+                    config.steering_motors[m].set((1 * copysign(1, rot)) *
+                                                  (config.encoders[m].get() - self.enc_seek))
+                logging.write_log(config.encoders[m].get())
+                if t.hasPeriodPassed(1.5):
+                    inverse = True
+                    stop = True
+                    break
+            config.steering_motors[m].set(0)
+
+        t.stop()
+    
+        for i in range(len(config.driving_motors)):
+            if (i % 2):
+                config.driving_motors[i].set(throttle)
+            else:
+                config.driving_motors[i].set(-throttle)
+    
     def default(self):
         """
         Method to set wheels all to the same position
@@ -103,9 +154,9 @@ class RobotDrive():
     
     def drive(self, type):
         # gets information about the encoders so we can print it to the Driver station
-        logging.write_log([enc.getDistance() for enc in config.encoders])
+#        logging.write_log([enc.getDirection() for enc in config.encoders])
         
         if type == config.SWERVE:
-            self.swerve()
+            self.new_swerve()
         elif type == config.TANK:
             self.tank()

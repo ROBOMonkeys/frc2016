@@ -7,7 +7,7 @@ def shoot(sht_mtrs, o_mtr, piston):
     shoot_timer.start()
 
 def real_shoot(m, o_m, p):
-    p.set(True) # or whatever function to make the piston fire
+    p.set(False) # or whatever function to make the piston fire
     m.set(0) # or whatever function to make the motors stop
     o_m.set(0)
 
