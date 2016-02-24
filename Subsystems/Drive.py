@@ -14,7 +14,7 @@ class RobotDrive():
             orig_pos = enc.get()
             spd = .75
             pos = enc.get()
-            while not pos < 10 or not pos > -10:
+            while not pos > -10 and not pos < 10:
                 mtr.set(spd)
                 if pos > orig_pos:
                     spd = -spd
@@ -37,15 +37,18 @@ class RobotDrive():
 
         for enc in config.encoders:
             sp, tsp = self.swerve_determine_angle(x_speed * .75,
-                                                  rot * 180,
+                                                  rot,
                                                   enc)
             s.append(sp)
             ts.append(tsp)
 
         # Acutally set the motors
-        for i in config.driving_motors:
+        for i in range(len(config.driving_motors)):
             for spd in s:
-                i.set(spd)
+                if (i % 2):
+                    config.driving_motors[i].set(spd)
+                else:
+                    config.driving_motors[i].set(-spd)
         for i in self.steering_motors:
             for t_spd in ts:
                 i.set(t_spd)
@@ -75,7 +78,7 @@ class RobotDrive():
         elif enc.get() > 180 and turn_speed > 0:
             turn_speed = 0
 
-        return (speed, turn_speed)
+        return (speed, angle)
 
     def tank(self):
         r = -config.controller.getRawAxis(XboxAxis.R_Y)
@@ -100,7 +103,7 @@ class RobotDrive():
     
     def drive(self, type):
         # gets information about the encoders so we can print it to the Driver station
-        logging.write_log([enc.get() for enc in config.encoders])
+        logging.write_log([enc.getDistance() for enc in config.encoders])
         
         if type == config.SWERVE:
             self.swerve()
