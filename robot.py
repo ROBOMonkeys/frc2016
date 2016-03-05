@@ -8,29 +8,29 @@ from threading import Timer
 
 class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
-        logging.write_message("""
-mmmmmm   mm     mmm 
-    #"   ##   m"   "
-  m#    #  #  #     
- m"     #mm#  #     
-##mmmm #    #  "mmm"
-""")
-        logging.write_message("""
-                                                               
-       mmmmmmm mmmmmm   mm   m    m        
- m"\""m    #    #        ##   ##  ##        
-# #"" #   #    #mmmmm  #  #  # ## #        
-"m\"""m"   #    #       #mm#  # "" #        
-  \"""     #    #mmmmm #    # #    #        
-
-        """)
+#        logging.write_message("""
+#mmmmmm   mm     mmm 
+#    #"   ##   m"   "
+#  m#    #  #  #     
+# m"     #mm#  #     
+###mmmm #    #  "mmm"
+#""")
+#        logging.write_message("""
+#                                                               
+#       mmmmmmm mmmmmm   mm   m    m        
+# m"\""m    #    #        ##   ##  ##        
+## #"" #   #    #mmmmm  #  #  # ## #        
+#"m\"""m"   #    #       #mm#  # "" #        
+#  \"""     #    #mmmmm #    # #    #        
+#
+#        """)
         
         self.drive = Drive.RobotDrive()
         self.drive_type = config.SWERVE
 
         # only way to get the compressor to start
-        config.drop_sole = wpi.Solenoid(0)
-        config.shoot_sole = wpi.Solenoid(1)
+#        config.drop_sole = wpi.Solenoid(0)
+#        config.shoot_sole = wpi.Solenoid(1)
 
         # only way to get the Encoders to work
         config.encoders = [
@@ -45,7 +45,8 @@ mmmmmm   mm     mmm
             enc.reset()
 
     def autonomousInit(self):
-        logging.write_message("\nTREMBLE, BEFORE ME HUMAN\n")
+        pass
+#        logging.write_message("\nTREMBLE, BEFORE ME HUMAN\n")
         #config.auto_state = 0 # sets the autonomous state var to 0
 
         # sets the timer up
@@ -74,8 +75,8 @@ mmmmmm   mm     mmm
         if XboxButtons.A.poll():
             Shooter.shoot(config.shoot_mtr, config.suck_mtr, config.shoot_sole)
         # returns the wheels to the default position
-        if XboxButtons.X.poll():
-            self.drive.default()
+#        if XboxButtons.X.poll():
+#            self.drive.default()
         # to suck, press B
         if XboxButtons.B.poll():
             Shooter.suck(config.shoot_mtr, config.suck_mtr, config.shoot_sole)
@@ -86,8 +87,8 @@ mmmmmm   mm     mmm
             Shooter.toggle_arm(config.drop_sole)
         # to toggle logging to the Driver Station
         #  press the Select button
-        if XboxButtons.Start.poll():
-            config.LOGGING = not config.LOGGING
+#        if XboxButtons.Start.poll():
+#            config.LOGGING = not config.LOGGING
 
 if __name__ == "__main__":
     wpi.run(Myrobot)
