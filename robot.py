@@ -10,7 +10,7 @@ class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
         
         self.drive = Drive.RobotDrive()
-        self.drive_type = config.TANK
+        self.drive_type = config.SWERVE
 
         # only way to get the compressor to start
 #        config.drop_sole = wpi.Solenoid(0)

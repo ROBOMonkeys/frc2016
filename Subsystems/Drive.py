@@ -6,13 +6,36 @@ from wpilib.timer import Timer
 
 class RobotDrive():
     def __init__(self):
-        self.enc_seek = 0
+        self.target = 0
         self.enc_ = 0
         self.max = self.seek_to(90)
         self.min = -self.max
 
+    def setMotorValues(self, current):
+        if self.target < current:
+            return [-1, -1, 1, 1]
+        else:
+            return [1, 1, -1, -1]
+
+    def notInPosition(self, current_positions, motor_values):
+        ret = True
+        local_ret = None
+        for cur in range(4):
+            local_ret = current_positions[cur] < ((self.target - 10) * motor_values[cur]) or \
+                        current_positions[cur] > ((self.target + 10) * motor_values[cur])
+            ret = ret and local_ret
+        return ret
+        
     def seek_to(self, deg):
         return deg * config.enc_ratio
+
+    def isFront(self, wheel):
+        if wheel == 3:
+            return True
+        elif wheel == 2:
+            return True
+        else:
+            return False
 
     def get_speed(self, deg):
         return (0.00022575758 * (deg ** 2)) - \
@@ -28,7 +51,7 @@ class RobotDrive():
 #        if rot is None:
         rot = config.controller.getRawAxis(XboxAxis.L_X)
 #        else:
-#            self.enc_seek = rot
+#            self.target = rot
 
         # deadband zone
         if throttle < 0.25 and throttle > -0.25:
@@ -37,50 +60,73 @@ class RobotDrive():
             rot = 0
 
         self.enc_ += rot
-        self.enc_seek += self.seek_to(self.enc_)
+        self.target += self.seek_to(self.enc_)
 
-        if self.enc_seek > self.max:
-            self.enc_seek = self.max
-        elif self.enc_seek < self.min:
-            self.enc_seek = self.min
+        if self.target > self.max:
+            self.target = self.max
+        elif self.target < self.min:
+            self.target = self.min
 
-        for enc in range(4):
-            dist = self.seek_to(config.encoders[enc].get())
-            t_spd = 0.2
-            spd = self.get_speed(self.enc_seek) * throttle
-            left = None
+        while_timer = Timer()
+        for_timer = Timer()
+        while_timer.start()
+        for_timer.start()
 
-            # while the current encoder value is not within the dead zone
-            #  we "seek" the motors to go to the value
-            while dist < (self.enc_seek - 10) or \
-                    dist > (self.enc_seek + 10):
-                if self.enc_seek < dist: # seeking to the left
-                    left = True
-                    if not (enc % 2):
-                        config.steering_motors[enc].set(-t_spd)
-                    else:
-                        config.steering_motors[enc].set(t_spd)
-                        
-                else: # seeking to the right
-                    left = False
-                    if enc % 2:
-                        config.steering_motors[enc].set(t_spd)
-                    else:
-                        config.steering_motors[enc].set(-t_spd)
+        current = [self.seek_to(config.encoders[enc].get()) for enc in range(4)]
+        
+        motor_values = self.setMotorValues(current[0])
+        
+        while self.notInPosition(current, motor_values) and while_timer.getMsClock() < 100:
+            for enc in range(4):
+                config.steering_motors[enc].set(0.2 * motor_values[enc])
+            if for_timer.getMsClock() >= 10:
+                for enc in range(4):
+                    config.steering_motors[enc].set(0)
+                for_timer.reset()
+            current = [self.seek_to(config.encoders[enc].get()) for enc in range(4)]
+        for_timer.stop()
+        while_timer.stop()
 
-                dist = self.seek_to(config.encoders[enc].get())
-
-#            config.steering_motors[enc].set(0)
-            config.driving_motors[enc].set(throttle)
-#            if left:
-#                if enc % 2 == 0:
-#                    config.driving_motors[enc].set(spd)
-#                else:
-#                    config.driving_motors[enc].set(throttle)
-#            else:
-#                if enc % 2 != 0:
-#                    config.driving_motors[enc].set(spd)
-#                else:
+        for mtr in config.driving_motors:
+            mtr.set(throttle)
+            
+#        for enc in range(4):
+#            current = self.seek_to(config.encoders[enc].get())
+#            t_spd = 0.2
+#            spd = self.get_speed(self.target) * throttle
+#            left = None
+#
+#            # while the current encoder value is not within the dead zone
+#            #  we "seek" the motors to go to the value
+#            while current < (self.target - 10) or \
+#                    current > (self.target + 10):
+#                if self.target < current: # seeking to the left
+#                    left = True
+#                    if self.isFront(enc):
+#                        config.steering_motors[enc].set(-t_spd)
+#                    else:
+#                        config.steering_motors[enc].set(t_spd)
+#                        
+#                else: # seeking to the right
+#                    left = False
+#                    if self.isFront(enc):
+#                        config.steering_motors[enc].set(t_spd)
+#                    else:
+#                        config.steering_motors[enc].set(-t_spd)
+#
+#                current = self.seek_to(config.encoders[enc].get())
+#
+##            config.steering_motors[enc].set(0)
+#
+##            if left:
+##                if enc % 2 == 0:
+##                    config.driving_motors[enc].set(spd)
+##                else:
+##                    config.driving_motors[enc].set(throttle)
+##            else:
+##                if enc % 2 != 0:
+##                    config.driving_motors[enc].set(spd)
+##                else:
 #                    config.driving_motors[enc].set(throttle)
 
 
@@ -94,9 +140,9 @@ class RobotDrive():
         if rot < 0.25 and rot > -0.25:
             rot = 0
 
-        logging.write_log([self.enc_seek, rot])
+        logging.write_log([self.target, rot])
             
-        self.enc_seek += rot * 10
+        self.target += rot * 10
 
         inverse = False
         stop = False
@@ -106,16 +152,16 @@ class RobotDrive():
         for m in range(len(config.steering_motors)):
             t.reset()
             logging.write_log("Turning")
-            while (not config.encoders[m].get() < self.enc_seek + 15 or \
-                   not config.encoders[m].get() > self.enc_seek - 15) and \
+            while (not config.encoders[m].get() < self.target + 15 or \
+                   not config.encoders[m].get() > self.target - 15) and \
                 not stop:
                 if not inverse:
                     config.steering_motors[m].set((1 * -copysign(1, rot)) *
-                                                  (self.enc_seek - config.encoders[m].get()))
+                                                  (self.target - config.encoders[m].get()))
                                                   
                 else:
                     config.steering_motors[m].set((1 * copysign(1, rot)) *
-                                                  (config.encoders[m].get() - self.enc_seek))
+                                                  (config.encoders[m].get() - self.target))
                 logging.write_log(config.encoders[m].get())
                 if t.hasPeriodPassed(1.5):
                     inverse = True
