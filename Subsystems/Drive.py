@@ -18,9 +18,16 @@ class RobotDrive():
             (0.0196993939 * deg) + \
             0.9741636364
         
-    def new_new_swerve(self):
-        throttle = -config.controller.getRawAxis(XboxAxis.R_Y)
-        rot = config.controller.getRawAxis(XboxAxis.L_X)
+    def new_new_swerve(self, thr=None, rot=None):
+        if thr is None:
+            throttle = -config.controller.getRawAxis(XboxAxis.R_Y)
+        else:
+            throttle = thr
+
+        if rot is None:
+            rot = config.controller.getRawAxis(XboxAxis.L_X)
+        else:
+            self.enc_seek = rot
 
         # deadband zone
         if throttle < 0.25 and throttle > -0.25:

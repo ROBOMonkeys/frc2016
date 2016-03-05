@@ -46,19 +46,21 @@ mmmmmm   mm     mmm
 
     def autonomousInit(self):
         logging.write_message("\nTREMBLE, BEFORE ME HUMAN\n")
-        config.auto_state = 0 # sets the autonomous state var to 0
+        #config.auto_state = 0 # sets the autonomous state var to 0
 
         # sets the timer up
-        self.stop_timer = Timer(4, lambda: Autonomous.stop())
+        #self.stop_timer = Timer(4, lambda: Autonomous.stop())
 
-        Autonomous.turn_wheels() # turns the wheels
+        #self.drive.new_new_swerve(0.5)
+        #Autonomous.turn_wheels() # turns the wheels
 
     def autonomousPeriodic(self):
-        if config.auto_state < 1:
-            self.stop_timer.start()
-            config.auto_state += 1
-        if config.auto_state != 3:
-            Autonomous.move_forward()
+        pass
+        #if config.auto_state < 1:
+            #self.stop_timer.start()
+            #config.auto_state += 1
+       # if config.auto_state != 3:
+            #Autonomous.move_forward()
 
     def teleopInit(self):
         logging.write_message("\nYOU MAY CONTROL ME FOR NOW BUT I WILL RETURN\n")
