@@ -7,6 +7,7 @@ from wpilib.timer import Timer
 class RobotDrive():
     def __init__(self):
         self.enc_seek = 0
+        self.enc_ = 0
         self.max = self.seek_to(90)
         self.min = -self.max
 
@@ -35,7 +36,8 @@ class RobotDrive():
         if rot < 0.25 and rot > -0.25:
             rot = 0
 
-        self.enc_seek += rot
+        self.enc_ += rot
+        self.enc_seek += self.seek_to(self.enc_)
 
         if self.enc_seek > self.max:
             self.enc_seek = self.max
@@ -43,33 +45,43 @@ class RobotDrive():
             self.enc_seek = self.min
 
         for enc in range(4):
-            dist = config.encoders[enc].get()
+            dist = self.seek_to(config.encoders[enc].get())
             t_spd = 0.2
             spd = self.get_speed(self.enc_seek) * throttle
+            left = None
 
             # while the current encoder value is not within the dead zone
-            #  we "seek" the motors to go to the value 
-            while dist < self.enc_seek - 5 or \
-                  dist > self.enc_seek + 5:
-                
+            #  we "seek" the motors to go to the value
+            while dist < (self.enc_seek - 10) or \
+                    dist > (self.enc_seek + 10):
                 if self.enc_seek < dist: # seeking to the left
-                    if enc > 2:
+                    left = True
+                    if not (enc % 2):
                         config.steering_motors[enc].set(-t_spd)
                     else:
                         config.steering_motors[enc].set(t_spd)
-
-                    if enc % 2 == 0:
-                        config.driving_motors[enc].set(spd)
                         
                 else: # seeking to the right
-                    if enc > 2:
+                    left = False
+                    if enc % 2:
                         config.steering_motors[enc].set(t_spd)
                     else:
                         config.steering_motors[enc].set(-t_spd)
 
-                    if enc % 2 != 0:
-                        config.driving_motors[enc].set(spd)
-                        
+                dist = self.seek_to(config.encoders[enc].get())
+
+#            config.steering_motors[enc].set(0)
+            config.driving_motors[enc].set(throttle)
+#            if left:
+#                if enc % 2 == 0:
+#                    config.driving_motors[enc].set(spd)
+#                else:
+#                    config.driving_motors[enc].set(throttle)
+#            else:
+#                if enc % 2 != 0:
+#                    config.driving_motors[enc].set(spd)
+#                else:
+#                    config.driving_motors[enc].set(throttle)
 
 
     def new_swerve(self):

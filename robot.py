@@ -8,22 +8,6 @@ from threading import Timer
 
 class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
-#        logging.write_message("""
-#mmmmmm   mm     mmm 
-#    #"   ##   m"   "
-#  m#    #  #  #     
-# m"     #mm#  #     
-###mmmm #    #  "mmm"
-#""")
-#        logging.write_message("""
-#                                                               
-#       mmmmmmm mmmmmm   mm   m    m        
-# m"\""m    #    #        ##   ##  ##        
-## #"" #   #    #mmmmm  #  #  # ## #        
-#"m\"""m"   #    #       #mm#  # "" #        
-#  \"""     #    #mmmmm #    # #    #        
-#
-#        """)
         
         self.drive = Drive.RobotDrive()
         self.drive_type = config.SWERVE
@@ -40,9 +24,10 @@ class Myrobot(wpi.IterativeRobot):
             wpi.Encoder(aChannel=6, bChannel=7, reverseDirection=True)]
 
         for enc in config.encoders:
-            enc.setMinRate(20)
-            enc.setSamplesToAverage(10)
             enc.reset()
+#            enc.setMinRate(5)
+#            enc.setSamplesToAverage(5)
+
 
     def autonomousInit(self):
         pass
