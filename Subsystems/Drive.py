@@ -75,11 +75,11 @@ class RobotDrive():
         current = [self.seek_to(config.encoders[enc].get()) for enc in range(4)]
         
         motor_values = self.setMotorValues(current[0])
-        
-        while self.notInPosition(current, motor_values) and while_timer.getMsClock() < 100:
+
+        while self.notInPosition(current, motor_values) and while_timer.hasPeriodPassed(.1):
             for enc in range(4):
                 config.steering_motors[enc].set(0.2 * motor_values[enc])
-            if for_timer.getMsClock() >= 10:
+            if for_timer.hasPeriodPassed(.01):
                 for enc in range(4):
                     config.steering_motors[enc].set(0)
                 for_timer.reset()
@@ -120,7 +120,8 @@ class RobotDrive():
 #
 ##            if left:
 ##                if enc % 2 == 0:
-##                    config.driving_motors[enc].set(spd)
+##
+        #  config.driving_motors[enc].set(spd)
 ##                else:
 ##                    config.driving_motors[enc].set(throttle)
 ##            else:
