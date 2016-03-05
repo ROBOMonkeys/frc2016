@@ -9,7 +9,7 @@ from threading import Timer
 class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
 
-        logging.write_message("\nPREPARE TO BE DESTROYED <3\n")
+        logging.write_message("\nALL CODE PROPRIETY FROM TEAM ZAC\n")
         
         self.drive = Drive.RobotDrive()
         self.drive_type = config.SWERVE
