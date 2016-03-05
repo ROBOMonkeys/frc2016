@@ -7,6 +7,63 @@ from wpilib.timer import Timer
 class RobotDrive():
     def __init__(self):
         self.enc_seek = 0
+        self.max = self.seek_to(90)
+        self.min = -self.max
+
+    def seek_to(self, deg):
+        return deg * config.enc_ratio
+
+    def get_speed(self, deg):
+        return (0.00022575758 * (deg ** 2)) - \
+            (0.0196993939 * deg) + \
+            0.9741636364
+        
+    def new_new_swerve(self):
+        throttle = -config.controller.getRawAxis(XboxAxis.R_Y)
+        rot = config.controller.getRawAxis(XboxAxis.L_X)
+
+        # deadband zone
+        if throttle < 0.25 and throttle > -0.25:
+            throttle = 0
+        if rot < 0.25 and rot > -0.25:
+            rot = 0
+
+        self.enc_seek += rot
+
+        if self.enc_seek > self.max:
+            self.enc_seek = self.max
+        elif self.enc_seek < self.min:
+            self.enc_seek = self.min
+
+        for enc in range(4):
+            dist = config.encoders[enc].get()
+            t_spd = 0.2
+            spd = self.get_speed(self.enc_seek) * throttle
+
+            # while the current encoder value is not within the dead zone
+            #  we "seek" the motors to go to the value 
+            while dist < self.enc_seek - 5 or \
+                  dist > self.enc_seek + 5:
+                
+                if self.enc_seek < dist: # seeking to the left
+                    if enc > 2:
+                        config.steering_motors[enc].set(-t_spd)
+                    else:
+                        config.steering_motors[enc].set(t_spd)
+
+                    if enc % 2 == 0:
+                        config.driving_motors[enc].set(spd)
+                        
+                else: # seeking to the right
+                    if enc > 2:
+                        config.steering_motors[enc].set(t_spd)
+                    else:
+                        config.steering_motors[enc].set(-t_spd)
+
+                    if enc % 2 != 0:
+                        config.driving_motors[enc].set(spd)
+                        
+
 
     def new_swerve(self):
         throttle = -config.controller.getRawAxis(XboxAxis.R_Y)
@@ -157,6 +214,6 @@ class RobotDrive():
 #        logging.write_log([enc.getDirection() for enc in config.encoders])
         
         if type == config.SWERVE:
-            self.new_swerve()
+            self.new_new_swerve()
         elif type == config.TANK:
             self.tank()

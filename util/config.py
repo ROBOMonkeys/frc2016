@@ -17,6 +17,8 @@ gyro = AnalogGyro(1)
 
 encoders = None
 
+enc_ratio = 0.8692153
+
 drop_sole = None 
 shoot_sole = None
 

@@ -26,7 +26,8 @@ class Myrobot(wpi.IterativeRobot):
             wpi.Encoder(aChannel=6, bChannel=7, reverseDirection=True)]
 
         for enc in config.encoders:
-            enc.setDistancePerPulse(480)
+            enc.setMinRate(20)
+            enc.setSamplesToAverage(10)
             enc.reset()
 
     def autonomousInit(self):
