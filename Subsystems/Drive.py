@@ -23,7 +23,7 @@ class RobotDrive():
         for cur in range(4):
             local_ret = current_positions[cur] < ((self.target - 10) * motor_values[cur]) or \
                         current_positions[cur] > ((self.target + 10) * motor_values[cur])
-            ret = ret and local_ret
+            ret = ret or local_ret
         return ret
         
     def seek_to(self, deg):
