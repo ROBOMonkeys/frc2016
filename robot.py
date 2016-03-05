@@ -8,16 +8,22 @@ from threading import Timer
 
 class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
-
         logging.write_message("""
                                                                
-       mmmmmmm mmmmmm   mm   m    m        mmmmmm   mm     mmm 
- m\"""m    #    #        ##   ##  ##            #"   ##   m"   "
-# #"" #   #    #mmmmm  #  #  # ## #          m#    #  #  #     
-"m\"""m"   #    #       #mm#  # "" #         m"     #mm#  #     
-  \"""     #    #mmmmm #    # #    #        ##mmmm #    #  "mmm"
+       mmmmmmm mmmmmm   mm   m    m        
+ m"\""m    #    #        ##   ##  ##        
+# #"" #   #    #mmmmm  #  #  # ## #        
+"m\"""m"   #    #       #mm#  # "" #        
+  \"""     #    #mmmmm #    # #    #        
 
         """)
+        logging.write_message("""
+mmmmmm   mm     mmm 
+    #"   ##   m"   "
+  m#    #  #  #     
+ m"     #mm#  #     
+##mmmm #    #  "mmm"
+""")
         
         self.drive = Drive.RobotDrive()
         self.drive_type = config.SWERVE
