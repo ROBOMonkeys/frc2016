@@ -218,7 +218,7 @@ class RobotDrive():
             l = 0
 
         # set the wheels back straight
-        self.default()
+#        self.default()
 
         # SET LEFT MOTORS
         config.driving_motors[0].set(l * 0.75)

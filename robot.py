@@ -10,7 +10,7 @@ class Myrobot(wpi.IterativeRobot):
     def robotInit(self):
         
         self.drive = Drive.RobotDrive()
-        self.drive_type = config.SWERVE
+        self.drive_type = config.TANK
 
         # only way to get the compressor to start
 #        config.drop_sole = wpi.Solenoid(0)
@@ -23,6 +23,7 @@ class Myrobot(wpi.IterativeRobot):
             wpi.Encoder(aChannel=4, bChannel=5, reverseDirection=True),
             wpi.Encoder(aChannel=6, bChannel=7, reverseDirection=True)]
 
+        
         for enc in config.encoders:
             enc.reset()
 #            enc.setMinRate(5)
