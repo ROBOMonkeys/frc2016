@@ -13,8 +13,8 @@ class Myrobot(wpi.IterativeRobot):
         self.drive_type = config.SWERVE
 
         # only way to get the compressor to start
-#        config.drop_sole = wpi.Solenoid(0)
-#        config.shoot_sole = wpi.Solenoid(1)
+        config.drop_sole = wpi.Solenoid(0)
+        config.shoot_sole = wpi.Solenoid(1)
 
         # only way to get the Encoders to work
         config.encoders = [
