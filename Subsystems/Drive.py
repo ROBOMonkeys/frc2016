@@ -69,17 +69,17 @@ class RobotDrive():
 
         while_timer = Timer()
         for_timer = Timer()
-        while_timer.start()
-        for_timer.start()
 
         current = [self.seek_to(config.encoders[enc].get()) for enc in range(4)]
         
         motor_values = self.setMotorValues(current[0])
 
-        while self.notInPosition(current, motor_values) and while_timer.hasPeriodPassed(.1):
+        while_timer.start()
+        for_timer.start()
+        while self.notInPosition(current, motor_values) and not while_timer.hasPeriodPassed(.2):
             for enc in range(4):
                 config.steering_motors[enc].set(0.2 * motor_values[enc])
-            if for_timer.hasPeriodPassed(.01):
+            if for_timer.hasPeriodPassed(.02):
                 for enc in range(4):
                     config.steering_motors[enc].set(0)
                 for_timer.reset()
