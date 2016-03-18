@@ -270,12 +270,12 @@ class RobotDrive():
 #        self.default()
 
         # SET LEFT MOTORS
-        config.driving_motors[0].set(l * 0.75)
+        config.driving_motors[3].set(l * 0.75)
         config.driving_motors[2].set(l * 0.75)
 
         # SET RIGHT MOTORS
         config.driving_motors[1].set(r * 0.75)
-        config.driving_motors[3].set(r * 0.75)
+        config.driving_motors[0].set(r * 0.75)
     
     def drive(self, type):
         # gets information about the encoders so we can print it to the Driver station
