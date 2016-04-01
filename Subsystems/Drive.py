@@ -4,8 +4,6 @@ from util.enums import XboxAxis
 from math import copysign
 from wpilib.timer import Timer
 
-# test comment for new commit function
-
 class RobotDrive():
     def __init__(self):
         self.target = 0
@@ -257,7 +255,7 @@ class RobotDrive():
         return (speed, angle)
 
     def tank(self):
-        r = -config.controller.getRawAxis(XboxAxis.R_Y)
+        r = config.controller.getRawAxis(XboxAxis.R_Y)
         l = -config.controller.getRawAxis(XboxAxis.L_Y)
 
         # deadband
@@ -266,16 +264,13 @@ class RobotDrive():
         if l < 0.25 and l > -0.25:
             l = 0
 
-        # set the wheels back straight
-#        self.default()
-
         # SET LEFT MOTORS
-        config.driving_motors[3].set(l * 0.75)
-        config.driving_motors[2].set(l * 0.75)
+        config.driving_motors[0].set(l)
+        config.driving_motors[2].set(l)
 
         # SET RIGHT MOTORS
-        config.driving_motors[1].set(r * 0.75)
-        config.driving_motors[0].set(r * 0.75)
+        config.driving_motors[1].set(r)
+        config.driving_motors[3].set(r)
     
     def drive(self, type):
         # gets information about the encoders so we can print it to the Driver station
@@ -285,3 +280,7 @@ class RobotDrive():
             self.new_new_swerve()
         elif type == config.TANK:
             self.tank()
+
+        gate_mtr_spd = -config.controller.getRawAxis(XboxAxis.Z_U) + \
+                   config.controller.getRawAxis(XboxAxis.Z_D)
+        config.gate_mtr.set(gate_mtr_spd * 0.5)
